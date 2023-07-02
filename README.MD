@@ -8,6 +8,7 @@ The easiest way to import is copy-paste the source text.
 The script is limited to a specific URL
 ```
     // @match        https://itch.io/jam/*
+```
 
 ## Features on the specific submission's page:
 Show average rating of the multiple rating criteria.
