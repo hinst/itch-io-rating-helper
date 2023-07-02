@@ -14,6 +14,7 @@
     'use strict';
     console.log('ITCH IO GAME JAM RATING HELPER');
     const KEY = 'ITCH_IO_GAME_JAM_RATING_HELPER';
+    const gameJamKey = window.location.pathname.split('/')[2];
 
     function readGameTitle() {
         const header = document.querySelector('.jam_game_header h1');
@@ -77,13 +78,36 @@
                 saveRatingButton.addEventListener('click', () => readRating(true));
         }
         const gameTitle = readGameTitle();
-        if (gameTitle)
-            if (localStorage.getItem(KEY + ' ' + gameTitle) == null || storeEnabled)
-                localStorage.setItem(KEY + ' ' + gameTitle, '' + averageRating);
+        if (gameTitle) {
+            const ratingStorageKey = KEY + '/' + gameJamKey + '/' + gameTitle;
+            if (localStorage.getItem(ratingStorageKey) == null || storeEnabled)
+                localStorage.setItem(ratingStorageKey, '' + averageRating);
+        }
+    }
+
+    function showGameRatings() {
+        const gameViews = document.querySelectorAll('div.index_game_grid_widget .index_game_cell_widget.game_cell');
+        if (gameViews.length == 0)
+            return;
+        for (const gameView of gameViews) {
+            const gameTitle = gameView.querySelector('a.title')?.textContent;
+            const ratingStorageKey = KEY + '/' + gameJamKey + '/' + gameTitle;
+            const rating = parseFloat(localStorage.getItem(ratingStorageKey) || '0');
+            if (rating) {
+                const ratedLabel = gameView.querySelector('div.rated_label');
+                if (ratedLabel)
+                    ratedLabel.textContent += ' [' + rating.toFixed(1) + ']';
+            }
+        }
+    }
+
+    function initialize() {
+        readRating();
+        showGameRatings();
     }
 
     if (document.readyState == 'complete')
-        readRating();
+        initialize();
     else
-        addEventListener('load', () => readRating());
+        addEventListener('load', initialize);
 })();
