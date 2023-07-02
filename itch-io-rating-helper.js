@@ -13,8 +13,14 @@
 (function() {
     'use strict';
     console.log('ITCH IO GAME JAM RATING HELPER');
+    const KEY = 'ITCH_IO_GAME_JAM_RATING_HELPER';
 
-    const readRatingElementId = 'itch-io-game-jam-rating-helper-rating-info';
+    function readGameTitle() {
+        const header = document.querySelector('.jam_game_header h1');
+        return header?.firstChild?.textContent;
+    }
+
+    const readRatingElementId = KEY + '-info-panel';
     /** @type {MutationObserver} */
     let mutationObserver;
     function readRating() {
@@ -56,8 +62,8 @@
         let totalRating = 0;
         for (const rating of ratings)
             totalRating += rating;
-        infoPanel.innerText = 'RATING: ' +
-            (ratings.length ? (totalRating / ratings.length).toFixed(1) : 0);
+        const averageRating = ratings.length ? (totalRating / ratings.length) : 0
+        infoPanel.innerText = 'RATING: ' + averageRating.toFixed(1);
 
         if (!mutationObserver) {
             mutationObserver = new MutationObserver(change => {
@@ -65,6 +71,10 @@
             });
             mutationObserver.observe(criteriaRater, { childList: true, subtree: true });
         }
+        const gameTitle = readGameTitle();
+        if (gameTitle)
+            if (localStorage.getItem(KEY + ' ' + gameTitle) == null)
+                localStorage.setItem(KEY + ' ' + gameTitle, '' + averageRating);
     }
 
     if (document.readyState == 'complete')

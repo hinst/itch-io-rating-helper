@@ -1,0 +1,15 @@
+{
+  "name": "itch-io-rating-helper",
+  "version": "1.0.0",
+  "description": "Show average rating of the multiple rating criteria: see floating panel with vertical text in the left-top corner of the viewport.",
+  "main": "itch-io-rating-helper.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/tampermonkey": "^4.0.10"
+  }
+}
