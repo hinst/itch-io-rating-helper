@@ -21,15 +21,14 @@
         return header?.firstChild?.textContent;
     }
 
-    const readRatingElementId = KEY + '-info-panel';
     /** @type {MutationObserver} */
     let mutationObserver;
     /** @param {boolean} [storeEnabled] */
     function readRating(storeEnabled) {
+        const readRatingElementId = KEY + '-info-panel';
         const criteriaRater = document.querySelector('div.jam_jam_game_voter_widget.criteria_rater');
-        if (!criteriaRater) {
+        if (!criteriaRater)
             return;
-        }
         let infoPanel = document.getElementById(readRatingElementId);
         if (!infoPanel) {
             infoPanel = document.createElement('div');
@@ -85,14 +84,56 @@
         }
     }
 
+    /**
+        @param {Element} gameView
+        @returns {number}
+    */
+    function getGameRating(gameView) {
+        const gameTitle = gameView.querySelector('a.title')?.textContent;
+        const ratingStorageKey = KEY + '/' + gameJamKey + '/' + gameTitle;
+        const rating = parseFloat(localStorage.getItem(ratingStorageKey) || '0');
+        return rating;
+    }
+
     function showGameRatings() {
-        const gameViews = document.querySelectorAll('div.index_game_grid_widget .index_game_cell_widget.game_cell');
+        const sortByRatingElementId = KEY + '-info-panel';
+        const gameViews = document.querySelectorAll('.index_game_grid_widget .index_game_cell_widget.game_cell');
         if (gameViews.length == 0)
             return;
+        let sortPanel = document.getElementById(sortByRatingElementId);
+        if (!sortPanel) {
+            sortPanel = document.createElement('div');
+            sortPanel.id = sortByRatingElementId;
+            sortPanel.setAttribute('style', [
+                'position: fixed',
+                'z-index: 100',
+                'top: 50px',
+                'left: 0px',
+                'width: 20px',
+                'background-color:rgba(0, 0, 0, 0.66)',
+                'writing-mode: vertical-rl',
+                'color: white',
+                'padding: 4px',
+                'padding-left: 6px',
+                'font-size: 20px',
+            ].join(';'));
+            const sortButton = document.createElement('button')
+            sortButton.setAttribute('style', 'font-family:monospace');
+            sortButton.textContent = 'SORT BY RATING';
+            sortPanel.appendChild(sortButton);
+            document.body.appendChild(sortPanel);
+            sortButton.addEventListener('click', () => {
+                const gameViews = document.querySelectorAll('.index_game_grid_widget .index_game_cell_widget.game_cell');
+                if (gameViews.length == 0)
+                    return;
+                const gameViewsSorted = Array.from(gameViews).sort(function(gameViewA, gameViewB) {
+                    return getGameRating(gameViewB) - getGameRating(gameViewA);
+                });
+                gameViewsSorted.forEach(gameView => gameView.parentElement?.appendChild(gameView));
+            });
+        }
         for (const gameView of gameViews) {
-            const gameTitle = gameView.querySelector('a.title')?.textContent;
-            const ratingStorageKey = KEY + '/' + gameJamKey + '/' + gameTitle;
-            const rating = parseFloat(localStorage.getItem(ratingStorageKey) || '0');
+            const rating = getGameRating(gameView);
             if (rating) {
                 const ratedLabel = gameView.querySelector('div.rated_label');
                 if (ratedLabel)
