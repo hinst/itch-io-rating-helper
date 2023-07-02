@@ -137,7 +137,7 @@
             if (rating) {
                 const ratedLabel = gameView.querySelector('div.rated_label');
                 if (ratedLabel)
-                    ratedLabel.textContent += ' [' + rating.toFixed(1) + ']';
+                    ratedLabel.appendChild(document.createTextNode('[' + rating.toFixed(1) + ']'));
             }
         }
     }
