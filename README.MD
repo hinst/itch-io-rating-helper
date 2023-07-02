@@ -4,6 +4,11 @@
 Use Tampermonkey extension (or similar) in your browser. Import script `itch-io-rating-helper.js`.
 The easiest way to import is copy-paste the source text.
 
+## Safety
+The script is limited to a specific URL
+```
+    // @match        https://itch.io/jam/*
+
 ## Features on the specific submission's page:
 Show average rating of the multiple rating criteria.
 It is displayed in the left-top corner in a dark floating panel with vertical text.
