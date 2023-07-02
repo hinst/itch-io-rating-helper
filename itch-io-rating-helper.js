@@ -14,6 +14,19 @@
     'use strict';
     console.log('ITCH IO GAME JAM RATING HELPER');
     const KEY = 'ITCH_IO_GAME_JAM_RATING_HELPER';
+    const SIDE_PANEL_STYLE = [
+        'position: fixed',
+        'z-index: 100',
+        'top: 50px',
+        'left: 0px',
+        'width: 20px',
+        'background-color:rgba(0, 0, 0, 0.66)',
+        'writing-mode: vertical-rl',
+        'color: white',
+        'padding: 4px',
+        'padding-left: 6px',
+        'font-size: 20px',
+    ].join(';');
     const gameJamKey = window.location.pathname.split('/')[2];
 
     function readGameTitle() {
@@ -33,19 +46,7 @@
         if (!infoPanel) {
             infoPanel = document.createElement('div');
             infoPanel.id = readRatingElementId;
-            infoPanel.setAttribute('style', [
-                'position: fixed',
-                'z-index: 100',
-                'top: 50px',
-                'left: 0px',
-                'width: 20px',
-                'background-color:rgba(0, 0, 0, 0.66)',
-                'writing-mode: vertical-rl',
-                'color: white',
-                'padding: 4px',
-                'padding-left: 6px',
-                'font-size: 20px',
-            ].join(';'));
+            infoPanel.setAttribute('style', SIDE_PANEL_STYLE);
             document.body.appendChild(infoPanel);
         }
         const criteriaRows = criteriaRater.querySelectorAll('tr.criteria_row');
@@ -104,19 +105,7 @@
         if (!sortPanel) {
             sortPanel = document.createElement('div');
             sortPanel.id = sortByRatingElementId;
-            sortPanel.setAttribute('style', [
-                'position: fixed',
-                'z-index: 100',
-                'top: 50px',
-                'left: 0px',
-                'width: 20px',
-                'background-color:rgba(0, 0, 0, 0.66)',
-                'writing-mode: vertical-rl',
-                'color: white',
-                'padding: 4px',
-                'padding-left: 6px',
-                'font-size: 20px',
-            ].join(';'));
+            sortPanel.setAttribute('style', SIDE_PANEL_STYLE);
             const sortButton = document.createElement('button')
             sortButton.setAttribute('style', 'font-family:monospace');
             sortButton.textContent = 'SORT BY RATING';
