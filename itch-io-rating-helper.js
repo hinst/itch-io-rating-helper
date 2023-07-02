@@ -143,8 +143,10 @@
     }
 
     function initialize() {
-        readRating();
-        showGameRatings();
+        setTimeout(() => {
+            readRating();
+            showGameRatings();
+        }, 500);
     }
 
     if (document.readyState == 'complete')
