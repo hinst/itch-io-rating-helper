@@ -23,7 +23,8 @@
     const readRatingElementId = KEY + '-info-panel';
     /** @type {MutationObserver} */
     let mutationObserver;
-    function readRating() {
+    /** @param {boolean} [storeEnabled] */
+    function readRating(storeEnabled) {
         const criteriaRater = document.querySelector('div.jam_jam_game_voter_widget.criteria_rater');
         if (!criteriaRater) {
             return;
@@ -70,15 +71,19 @@
                 readRating();
             });
             mutationObserver.observe(criteriaRater, { childList: true, subtree: true });
+
+            const saveRatingButton = document.querySelector('.button.rate_btn');
+            if (saveRatingButton)
+                saveRatingButton.addEventListener('click', () => readRating(true));
         }
         const gameTitle = readGameTitle();
         if (gameTitle)
-            if (localStorage.getItem(KEY + ' ' + gameTitle) == null)
+            if (localStorage.getItem(KEY + ' ' + gameTitle) == null || storeEnabled)
                 localStorage.setItem(KEY + ' ' + gameTitle, '' + averageRating);
     }
 
     if (document.readyState == 'complete')
         readRating();
     else
-        addEventListener('load', readRating);
+        addEventListener('load', () => readRating());
 })();
