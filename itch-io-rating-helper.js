@@ -3,8 +3,8 @@
 // @name         itch.io game jam rating helper
 // @namespace    http://tampermonkey.net/
 // @version      0.1
-// @description  try to take over the world!
-// @author       You
+// @description  Provide additional information for game rating in itch.io UI
+// @author       hinst
 // @match        https://itch.io/jam/*
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @grant        none
